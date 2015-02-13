@@ -86,6 +86,10 @@ module Grape
               non_nested_parent_params.map do |param, value|
                 items = {}
 
+                if value.is_a?(Hash) && value[:documentation] && value[:documentation].is_a?(Hash)
+                  value.merge!(value[:documentation])
+                end
+
                 raw_data_type = value.is_a?(Hash) ? (value[:type] || 'string').to_s : 'string'
                 data_type     = case raw_data_type
                                 when 'Hash'
